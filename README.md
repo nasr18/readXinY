@@ -34,8 +34,8 @@ npm start
 
 ## Authors
 
-- [Mohamed Nasrullah](https://github.com/AntonioErdeljac/Blog-Tutorial)
+- [Mohamed Nasrullah](https://github.com/nasr18)
 
 ## Credits
 
-- Thank you **Antonio Erdeljac** for initial clean and neat setup.
+- Thank you [Antonio Erdeljac](https://github.com/AntonioErdeljac) for initial clean and neat setup.
