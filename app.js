@@ -6,8 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const errorHandler = require('errorhandler');
 
-const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv/config');
 
 // Configure mongoose's promise to global promise
 mongoose.promise = global.Promise;
@@ -38,8 +37,15 @@ app.use(
 } */
 
 // Configure Mongoose
-mongoose.connect(process.env.dbUri);
 mongoose.set('debug', process.env.dbDebug);
+mongoose
+  .connect(process.env.dbUri)
+  .then(connection => {
+    console.log(`Mongoose connection established to ${process.env.dbUri}`);
+  })
+  .catch(err => {
+    console.error('Mongoose connection failed', { err });
+  });
 
 // Models & routes
 require('./models/Users');
@@ -48,6 +54,7 @@ app.use(require('./routes'));
 
 // Error handlers & middlewares
 app.use((err, req, res) => {
+  console.log('errHandler:', err);
   res.status(err.status || 500);
 
   res.json({

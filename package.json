@@ -24,7 +24,7 @@
     "start": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "https://github.com/nasr18",
   "license": "ISC",
   "prettier": {
     "printWidth": 100,

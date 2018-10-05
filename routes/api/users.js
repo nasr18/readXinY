@@ -36,10 +36,10 @@ router.post('/', auth.optional, (req, res, next) => {
 // POST login route (optional, everyone has access)
 router.post('/login', auth.optional, (req, res, next) => {
   const {
-    body: { user },
+    body: { user, email, password },
   } = req;
 
-  if (!user.email) {
+  if (!email) {
     return res.status(422).json({
       errors: {
         email: 'is required',
@@ -47,7 +47,7 @@ router.post('/login', auth.optional, (req, res, next) => {
     });
   }
 
-  if (!user.password) {
+  if (!password) {
     return res.status(422).json({
       errors: {
         password: 'is required',
@@ -56,18 +56,19 @@ router.post('/login', auth.optional, (req, res, next) => {
   }
 
   return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-    if (err) {
-      return next(err);
-    }
+    console.log({ passportUser, info });
+    if (err) return next(err);
 
     if (passportUser) {
       const user = passportUser;
       user.token = passportUser.generateJWT();
+      const newUser = user.toAuthJSON();
+      console.log({ newUser });
 
-      return res.json({ user: user.toAuthJSON() });
+      return res.json({ user: newUser });
     }
 
-    return status(400).info;
+    return res.status(400).json(info);
   })(req, res, next);
 });
 
